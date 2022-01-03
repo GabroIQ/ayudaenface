@@ -1,25 +1,54 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import Cosa from './Components/Cosa';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+
+const App = ()=> {
+  const [cosas , setCosas] = useState ([
+      {name: 'lechuga' , precio: 715},
+      {name: 'tomate' , precio: 115},
+      {name: 'porotos' , precio: 15},
+  ])
+  
+  const [carro , setCarro] = useState([])
+
+  const agregar = (cosa) => {
+    if (carro.find((x)=> x.name === cosa.name)) {
+      const newCarro = carro.map(x=> x.name === cosa.name
+        ? ({
+          ...x,
+          cantidad: x.cantidad + 1,
+        })
+        : x    
+        )
+      return setCarro([newCarro])
+    }
+    
+    return setCarro({
+      
+        ...cosa,
+        cantidad: 1
+      })
+    
+  
+  }
+console.log(carro)
+  return(
+    <div>
+      {cosas.map((cosa) => (
+        <Cosa
+          key={cosa.name}
+          carro={carro}
+          setCarro={setCarro}
+          cosa={cosa}
+          cosas={cosas}
+          agregar={agregar}
+        />
+      ))}
+
     </div>
-  );
-}
+  )}
+
 
 export default App;
